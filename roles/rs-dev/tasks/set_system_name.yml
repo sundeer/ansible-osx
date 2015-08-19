@@ -1,0 +1,13 @@
+---
+
+- name: Set ComputerName to {{ system_name }}
+  command: scutil --set ComputerName {{ system_name }}
+  sudo: yes
+
+- name: Set HostName to {{ system_name }}
+  command: scutil --set HostName {{ system_name }}
+  sudo: yes
+
+- name: Set LocalHostName to {{ system_name }}
+  command: scutil --set LocalHostName {{ system_name }}
+  sudo: yes

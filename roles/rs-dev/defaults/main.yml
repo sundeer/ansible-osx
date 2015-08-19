@@ -1,0 +1,163 @@
+---
+
+install_path: /usr/local/opt
+temp_work_area: ~/temp_work_area
+
+user_name: '{{ ansible_ssh_user }}'
+system_name: '{{ user_name }}-dev'
+
+dotfiles_dir: dotfiles
+zdotdir: zdotdir
+
+dotfiles_path: '{{ ansible_user_dir }}/{{ dotfiles_dir }}'
+zdotdir_path: '{{ dotfiles_path }}/{{ zdotdir }}'
+
+github:
+    user_name: sundeer
+    email: example@example.com
+
+homebrew_taps:
+    - homebrew/dupes
+    - caskroom/fonts
+
+homebrew_packages:
+    - git
+    - git-flow
+    - direnv
+    - wget
+    - openssl
+    - zsh
+    - pyenv
+    - pyenv-virtualenv
+    - packer
+    - tree
+    - ansible
+    - cookiecutter
+    - node
+    - consul
+    - httpie
+    - vault
+    - awscli
+
+homebrew_casks:
+    - seil
+    - atom
+    - diffmerge
+    - sourcetree
+    - sublime-text
+    - 1password
+    - alfred
+    - google-chrome
+    - firefox
+    - dropbox
+    - vagrant
+    - vagrant-manager
+    - terraform
+    - vmware-fusion
+    - virtualbox
+    - dash
+    - iterm2
+    - jewelrybox
+    - xquartz
+    - sequel-pro
+    - spideroakone
+    - tower
+    - wireshark
+    - kaleidoscope
+    - dockertoolbox
+
+homebrew_fonts:
+    - font-inconsolata
+    - font-source-code-pro
+
+osx_defaults:
+    - domain: com.apple.dock
+      defaults:
+        - key: autohide
+          type: bool
+          value: 'true'
+
+        - key: autohide-delay
+          type: float
+          value: 0
+
+        - key: orientation
+          type: string
+          value: bottom
+
+        - key: tilesize
+          type: int
+          value: 45
+
+        - key: springboard-columns
+          type: int
+          value: 9
+
+        - key: springboard-rows
+          type: int
+          value: 7
+
+        - key: minimize-to-application
+          type: bool
+          value: 'no'
+
+        - key: show-process-indicators
+          type: bool
+          value: 'true'
+
+    - domain: com.apple.finder
+      defaults:
+        - key: _FXShowPosixPathInTitle
+          type: bool
+          value: 'true'
+
+        - key: FXPreferredViewStyle
+          type: string
+          value: clmv
+
+        - key: NewWindowTarget
+          type: string
+          value: PfHm
+
+        - key: NewWindowTargetPath
+          type: string
+          value: file://localhost/Users/{{ user_name }}
+
+        - key: FXEnableExtensionChangeWarning
+          type: bool
+          value: 'false'
+
+        - key: WarnOnEmptyTrash
+          type: bool
+          value: 'false'
+
+        - key: AppleShowAllFiles
+          type: bool
+          value: 'true'
+
+    - domain: NSGlobalDomain
+      defaults:
+        - key: KeyRepeat
+          type: int
+          value: 0
+
+        - key: AppleShowAllFiles
+          type: int
+          value: 40
+
+        - key: AppleMiniaturizeOnDoubleClick
+          type: bool
+          value: 'true'
+
+    - domain: com.apple.menuextra.clock
+      defaults:
+        - key: DateFormat
+          type: string
+          value: EEE MMM d  HH:mm
+
+    - domain: com.apple.SoftwareUpdate
+      defaults:
+        - key: ScheduleFrequency
+          type: int
+          value: 1
+

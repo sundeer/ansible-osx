@@ -1,0 +1,6 @@
+---
+
+- name: Test
+  hosts: dev
+  roles:
+    - role: rs-dev

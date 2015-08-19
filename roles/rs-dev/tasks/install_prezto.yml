@@ -1,0 +1,43 @@
+---
+
+- name: Install Dependencies
+  homebrew: name={{ item }} state=present
+  with_items:
+    - git
+    - zsh
+
+- name: Create Directory for Zsh Dot Files
+  file:
+    path: '{{ zdotdir_path }}'
+    state: directory
+    recurse: yes
+
+- name: Clone User Prezto Repository
+  git:
+    repo: https://github.com/{{ github.user_name }}/prezto.git
+    dest: '{{ zdotdir_path }}/.zprezto'
+    force: yes
+    track_submodules: yes
+
+- name: Set Location of ZDOTDIR
+  sudo: yes
+  template:
+    src: zshenv.j2 
+    dest: /etc/zshenv
+    mode: '0444'
+    owner: root
+    group: 'wheel'
+
+- name: Link Prezto Zsh Dot Files to ZDOTDIR
+  file:
+    path: '{{ zdotdir_path }}/.{{ item }}'
+    src: '{{ zdotdir_path }}/.zprezto/runcoms/{{ item }}'
+    state: link
+    force: yes
+  with_items: [ zlogin, zlogout, zpreztorc, zprofile, zshenv, zshrc ]
+
+- name: Set Zsh as the default shell
+  sudo: yes
+  user:
+    name: '{{ user_name }}'
+    shell: /usr/local/bin/zsh

@@ -1,0 +1,39 @@
+---
+
+- name: Download Consul
+  get_url:
+    url: https://dl.bintray.com/mitchellh/consul/0.5.2_linux_amd64.zip
+    dest: '{{ temp_work_area }}/consul.zip'
+
+- name: Create Consul Directory
+  file:
+    path: '{{ install_path }}/consul'
+    state: directory
+
+- name: Install Consul
+  unarchive:
+    src: '{{ temp_work_area }}/consul.zip'
+    dest: /usr/local/bin
+    copy: no
+
+- name: Download Consul WEB UI
+  get_url:
+    url: https://dl.bintray.com/mitchellh/consul/0.5.2_web_ui.zip
+    dest: '{{ temp_work_area }}/consul_ui.zip'
+
+- name: Create Consul WEB UI Directory
+  file:
+    path: /opt/consul_ui
+    state: directory
+
+- name: Install Consul WEB UI
+  unarchive:
+    src: '{{ temp_work_area }}/consul_ui.zip'
+    dest: /opt/consul_ui
+    copy: no
+
+#- name: Symlink Consul to User Path
+#  file:
+#    src: '{{ install_path }}/consul'
+#    dest: /usr/local/bin
+#    state: link

@@ -1,0 +1,10 @@
+---
+
+- name: Install zsh
+  homebrew: name=zsh state=present
+
+- name: Set Zsh as the default shell
+  sudo: yes
+  user:
+    name: '{{ user_name }}'
+    shell: /usr/local/bin/zsh

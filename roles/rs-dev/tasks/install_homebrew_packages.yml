@@ -1,0 +1,40 @@
+---
+
+- name: Prepare Homebrew Install Location
+  sudo: yes
+  file: 
+    dest: /usr/local
+    state: directory
+    owner: '{{ ansible_ssh_user }}'
+
+- name: Install Homebrew
+  shell: curl -L https://github.com/Homebrew/homebrew/tarball/master | tar xz --strip 1 -C /usr/local
+  args:
+    creates: /usr/local/bin/brew
+
+- name: Update Homebrew
+  homebrew: update_homebrew=yes
+
+- name: Tap Homebrew Cask Repository
+  homebrew_tap: name=caskroom/cask state=present
+
+- name: Install Homebrew Cask
+  homebrew: name=brew-cask state=present
+
+- name: Tap Homebrew repositories
+  homebrew_tap: tap={{ item }}
+  with_items: homebrew_taps
+
+- name: Install Homebrew Packages
+  homebrew: name={{ item }} state=present
+  with_items: homebrew_packages
+
+- name: Install Homebrew Casks
+  homebrew_cask: name={{ item }} state=present
+  environment:
+    HOMEBREW_CASK_OPTS: '--appdir=/Applications'
+  with_items: homebrew_casks
+
+- name: Install Homebrew Fonts
+  homebrew_cask: name={{ item }} state=present
+  with_items: homebrew_fonts

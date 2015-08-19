@@ -1,0 +1,19 @@
+---
+
+- name: Create Temp Work Area
+  file:
+    path: '{{ temp_work_area }}'
+    state: directory
+    mode: '0755'
+    owner: '{{ ansible_user_id }}'
+
+- include: install_homebrew_packages.yml
+- include: set_system_name.yml
+- include: set_user_preferences.yml
+- include: install_prezto.yml
+
+- name: Remove Up Temp Work Area
+  file:
+    name: '{{ temp_work_area }}'
+    state: absent
+

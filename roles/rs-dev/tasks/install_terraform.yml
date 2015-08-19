@@ -1,0 +1,12 @@
+---
+
+- name: Download Terraform
+  get_url:
+    url: https://dl.bintray.com/mitchellh/terraform/terraform_0.6.2_linux_amd64.zip
+    dest: '{{ temp_work_area }}/terraform.zip'
+
+- name: Install Terraform
+  unarchive:
+    src: '{{ temp_work_area }}/terraform.zip'
+    dest: /usr/local/bin
+    copy: no
