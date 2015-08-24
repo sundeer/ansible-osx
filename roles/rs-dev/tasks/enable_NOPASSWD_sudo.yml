@@ -1,0 +1,18 @@
+---
+
+- name: Add NOPASSWD for user in sudoer file
+  sudo: yes
+  lineinfile:
+    backup: yes
+    dest: /etc/sudoers
+    state: present
+    line: '{{ sudo_nopasswd_user }} ALL=(ALL) NOPASSWD: ALL'
+    insertafter: EOF
+    validate: 'visudo -cf %s'
+  register: sudoers
+
+- debug:
+    msg: "Location of sudoers backup file: {{ sudoers.backup }}"
+
+
+

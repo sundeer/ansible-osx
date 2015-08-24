@@ -1,0 +1,15 @@
+---
+
+- name: Remove NOPASSWD privilege for vagrant user in sudoers file
+  sudo: yes
+  lineinfile:
+    backup: yes
+    dest: /etc/sudoers
+    state: absent
+    regexp: '^vagrant ALL=\(ALL\) NOPASSWD: ALL$'
+    line: 'vagrant ALL=\(ALL\) ALL'
+    validate: 'visudo -cf %s'
+  register: sudoers
+
+- debug:
+    msg: "Location of sudoers backup file: {{ sudoers.backup }}"
