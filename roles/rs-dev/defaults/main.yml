@@ -1,16 +1,18 @@
 ---
 
 install_path: /usr/local/opt
-temp_work_area: ~/temp_work_area
+temp_work_area: /tmp/temp_work_area
 
 user_name: '{{ ansible_ssh_user }}'
-system_name: '{{ user_name }}-dev'
+system_name: '{{ user_name }}-dev03'
 
 dotfiles_dir: dotfiles
 zdotdir: zdotdir
 
 dotfiles_path: '{{ ansible_user_dir }}/{{ dotfiles_dir }}'
 zdotdir_path: '{{ dotfiles_path }}/{{ zdotdir }}'
+
+zsh_path: /usr/local/bin/zsh
 
 github:
     user_name: sundeer
@@ -65,6 +67,8 @@ homebrew_casks:
     - wireshark
     - kaleidoscope
     - dockertoolbox
+    - pycharm
+    - rubymine
 
 homebrew_fonts:
     - font-inconsolata
@@ -73,40 +77,52 @@ homebrew_fonts:
 osx_defaults:
     - domain: com.apple.dock
       defaults:
+        # Automatically hide and show the Dock (true|false|YES|NO)
         - key: autohide
           type: bool
           value: 'true'
 
+        # Remove autohide Dock delay (0=instant)
         - key: autohide-delay
           type: float
           value: 0
 
+        # Autohide Dock animation speed (0=instant)
+        - key: autohide-time-modifier
+          type: float
+          value: 0.3
+
+        # Dock position on screen (left|bottom|right)
         - key: orientation
           type: string
           value: bottom
 
+        # Dock size (pixels)
         - key: tilesize
           type: int
           value: 45
 
+        # Set grid size for Launchpad icons
         - key: springboard-columns
           type: int
           value: 9
-
         - key: springboard-rows
           type: int
           value: 7
 
+        # Minimize window into application icon (true|false|YES|NO)
         - key: minimize-to-application
           type: bool
           value: 'no'
 
+        # Show indicator lights for open applications in the Dock (true|false|YES|NO)
         - key: show-process-indicators
           type: bool
           value: 'true'
 
     - domain: com.apple.finder
       defaults:
+        # Display full POSIX path as Finder window title
         - key: _FXShowPosixPathInTitle
           type: bool
           value: 'true'
@@ -115,49 +131,200 @@ osx_defaults:
           type: string
           value: clmv
 
+        # Set $HOME as the default location for new Finder windows
         - key: NewWindowTarget
           type: string
           value: PfHm
-
         - key: NewWindowTargetPath
           type: string
           value: file://localhost/Users/{{ user_name }}
 
+        # Disable the warning when changing a file extension
         - key: FXEnableExtensionChangeWarning
           type: bool
           value: 'false'
 
+        # Disable the warning before emptying the Trash
         - key: WarnOnEmptyTrash
           type: bool
           value: 'false'
 
+        # Empty Trash securely by default
+        - key: EmptyTrashSecurely
+          type: bool
+          value: 'true'
+
+        # Show hidden files
         - key: AppleShowAllFiles
           type: bool
           value: 'true'
 
     - domain: NSGlobalDomain
       defaults:
+        # Set fast keyboard repeat rate
         - key: KeyRepeat
           type: int
           value: 0
 
+        # Show all filename extensions
         - key: AppleShowAllFiles
           type: int
           value: 40
 
+        # Double-click a window's title bar to minimize (true|false|YES|NO)
         - key: AppleMiniaturizeOnDoubleClick
           type: bool
           value: 'true'
 
+        # Enable full keyboard access for all controls
+        # (e.g. enable Tab in modal dialogs)
+        - key: AppleKeyboardUIMode
+          type: int
+          value: 3
+
+        # Enable subpixel font rendering on non-Apple LCDs
+        - key: AppleFontSmoothing
+          type: int
+          value: 1
+
     - domain: com.apple.menuextra.clock
       defaults:
+        # Dat/time format on menu bar
         - key: DateFormat
           type: string
           value: EEE MMM d  HH:mm
 
     - domain: com.apple.SoftwareUpdate
       defaults:
+        # Check for software updates daily, not just once per week
         - key: ScheduleFrequency
           type: int
           value: 1
+
+    - domain: com.apple.universalaccess
+      defaults:
+        # Disable transparency in the menu bar and elsewhere on Yosemite
+        - key: reduceTransparency
+          type: bool
+          value: 'true'
+
+    - domain: com.apple.LaunchServices
+      defaults:
+        # Disable the “Are you sure you want to open this application?” dialog  
+        - key: LSQuarantine
+          type: bool
+          value: 'false'    
+
+    - domain: com.apple.screensaver
+      defaults:
+        # # Require password immediately after sleep or screen saver begins
+        # - key: askForPassword
+        #   type: int
+        #   value: 1
+
+        - key: askForPasswordDelay
+          type: int
+          value: 0
+
+    # - domain: /Library/Preferences/com.apple.windowserver
+    #   defaults:
+    #   # Enable HiDPI display modes (requires restart)
+    #   - key: DisplayResolutionEnabled
+    #     type: bool
+    #     value: 'true'
+
+    - domain: com.apple.desktopservices
+      defaults:
+        # Avoid creating .DS_Store files on network volumes
+        - key: DSDontWriteNetworkStores
+          type: bool
+          value: 'true'
+
+    - domain: com.apple.Safari
+      defaults:
+        # Privacy: don’t send search queries to Apple
+        - key: UniversalSearchEnabled
+          type: bool
+          value: 'false'
+        - key: SuppressSearchSuggestions
+          type: bool
+          value: 'true'
+
+        # Show the full URL in the address bar (note: this still hides the scheme)
+        - key: ShowFullURLInSmartSearchField
+          type: bool
+          value: 'true'
+
+        # Set Safari’s home page to `about:blank` for faster loading
+        - key: HomePage
+          type: string
+          value: 'about:blank'
+
+        # Prevent Safari from opening ‘safe’ files automatically after downloading
+        - key: AutoOpenSafeDownloads
+          type: bool
+          value: 'false'
+
+        # Hide Safari’s bookmarks bar by default
+        - key: ShowFavoritesBar
+          type: bool
+          value: 'false'
+
+        # Hide Safari’s sidebar in Top Sites
+        - key: ShowSidebarInTopSites
+          type: bool
+          value: 'false'
+
+        # Disable Safari’s thumbnail cache for History and Top Sites
+        - key: DebugSnapshotsUpdatePolicy
+          type: int
+          value: 2
+
+    - domain: com.googlecode.iterm2
+      defaults:
+        # Don’t display the annoying prompt when quitting iTerm
+        - key: PromptOnQuit
+          type: bool
+          value: 'false'
+
+    - domain: com.apple.ActivityMonitor
+      defaults: 
+        # Show the main window when launching Activity Monitor
+        - key: OpenMainWindow
+          type: bool
+          value: 'true'
+
+        # Visualize CPU usage in the Activity Monitor Dock icon
+        - key: IconType
+          type: int
+          value: 5
+
+        # Show all processes in Activity Monitor
+        - key: ShowCategory
+          type: int
+          value: 0
+
+        # Sort Activity Monitor results by CPU usage
+        - key: SortColumn
+          type: string 
+          value: CPUUsage
+        - key: SortDirection
+          type: int
+          value: 0
+
+    - domain: com.apple.appstore
+      defaults:
+        # Enable the WebKit Developer Tools in the Mac App Store
+        - key: WebKitDeveloperExtras
+          type: bool
+          value: 'true'
+
+        # Enable Debug Menu in the Mac App Store
+        - key: ShowDebugMenu
+          type: bool
+          value: 'true'
+
+
+
+
 

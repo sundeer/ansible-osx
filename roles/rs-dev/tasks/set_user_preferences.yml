@@ -11,8 +11,9 @@
     - osx_defaults
     - defaults
 
-- name: Relaunch Dock
-  command: killall Dock
-
-- name: Relaunch Finder
-  command: killall Finder
+# killall command requires double quoted whitespaces
+- name: Relaunch applications
+  command: killall "{{ item }}"
+  with_items:
+    - Finder
+    - Dock

@@ -1,6 +1,6 @@
 ---
 
 - name: Test
-  hosts: dev
+  hosts: default
   roles:
     - role: rs-dev

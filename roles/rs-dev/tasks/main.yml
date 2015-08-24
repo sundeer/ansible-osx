@@ -5,15 +5,18 @@
     path: '{{ temp_work_area }}'
     state: directory
     mode: '0755'
-    owner: '{{ ansible_user_id }}'
+    owner: '{{ user_name }}'
 
+- include: disable_vagrant_nopasswd_sudo.yml
+- include: set_user_preferences.yml
 - include: install_homebrew_packages.yml
 - include: set_system_name.yml
-- include: set_user_preferences.yml
 - include: install_prezto.yml
+- include: set_user_shell.yml
+- include: configure_IDEA.yml
 
-- name: Remove Up Temp Work Area
+- name: Remove Temp Work Area
   file:
     name: '{{ temp_work_area }}'
-    state: absent
+    state: absent 
 

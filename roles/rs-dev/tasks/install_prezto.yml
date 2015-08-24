@@ -36,8 +36,8 @@
     force: yes
   with_items: [ zlogin, zlogout, zpreztorc, zprofile, zshenv, zshrc ]
 
-- name: Set Zsh as the default shell
-  sudo: yes
-  user:
-    name: '{{ user_name }}'
-    shell: /usr/local/bin/zsh
+- name: Update Prezto
+  shell: 'git pull && git submodule update --init --recursive'
+  args:
+    chdir: '{{ zdotdir_path }}/.zprezto'
+

@@ -13,10 +13,10 @@ Vagrant.configure("2") do |c|
     p.gui = false
   end
 
-  c.vm.provision "ansible" do |ansible|
-    ansible.playbook = "playbook.yml"
-    #ansible.verbose = 'vvv'
-  end
+  # c.vm.provision "ansible" do |ansible|
+  #   ansible.playbook = "playbook.yml"
+  #   #ansible.verbose = 'vvv'
+  # end
   
 end
 

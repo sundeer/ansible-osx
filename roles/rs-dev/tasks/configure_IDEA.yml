@@ -1,0 +1,38 @@
+---
+
+- name: Install java 6.65 from apple
+  sudo: yes
+  mac_pkg:
+    pkg_name: com.apple.pkg.JavaForMacOSX107
+    pkg_version: 1.0.0.0.1.1247562015
+    url: https://support.apple.com/downloads/DL1572/en_US/javaforosx.dmg
+    archive_type: dmg
+    archive_path: JavaForOSX.pkg
+
+- name: Create Download Directory
+  file:
+    path: '{{ temp_work_area }}/fonts'
+    state: directory
+
+- name: Download Source Code Pro Fonts
+  get_url:
+    url: 'https://github.com/adobe-fonts/source-code-pro/archive/2.010R-ro/1.030R-it.tar.gz'
+    dest: '{{ temp_work_area }}/sourcecodepro.tar.gz'
+
+- name: Extract Source Code Pro Fonts
+  unarchive:
+    src: '{{ temp_work_area }}/sourcecodepro.tar.gz'
+    dest: '{{ temp_work_area }}/fonts'
+    copy: no
+    creates: '{{ temp_work_area }}/fonts/source-code-pro-2.010R-ro-1.030R-it/OTF/SourceCodePro-Regular.otf'
+
+- name: Install OTF Fonts
+  sudo: yes
+  shell: cp {{ temp_work_area }}/fonts/source-code-pro-2.010R-ro-1.030R-it/OTF/* /Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/fonts
+  args:
+    creates: /Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/fonts/SourceCodePro-Regular.otf
+
+- name: Install PyCharm
+  homebrew:
+    name: pycharm
+    state: present

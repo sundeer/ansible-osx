@@ -3,8 +3,21 @@
 - name: Install zsh
   homebrew: name=zsh state=present
 
-- name: Set Zsh as the default shell
+- name: Add Homebrew installed zsh to /etc/shells
   sudo: yes
-  user:
-    name: '{{ user_name }}'
-    shell: /usr/local/bin/zsh
+  lineinfile:
+    dest: /etc/shells
+    line: /usr/local/bin/zsh
+    state: present
+
+- name: Set Homebrew installed Zsh as the default shell
+  sudo: yes
+  command: chsh -s /usr/local/bin/zsh {{ user_name }}
+  # when: "{{ ansible_user_shell }}" != "{{ zsh_path }}"
+
+# - name: Set Zsh as the default shell
+#   sudo: yes
+#   user:
+#     name: '{{ user_name }}'
+#     uid: '{{ ansible_user_uid }}'
+#     shell: /usr/local/bin/zsh

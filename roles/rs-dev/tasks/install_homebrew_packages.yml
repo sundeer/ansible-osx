@@ -12,8 +12,8 @@
   args:
     creates: /usr/local/bin/brew
 
-- name: Update Homebrew
-  homebrew: update_homebrew=yes
+# - name: Update Homebrew
+#   homebrew: update_homebrew=yes
 
 - name: Tap Homebrew Cask Repository
   homebrew_tap: name=caskroom/cask state=present
@@ -29,12 +29,43 @@
   homebrew: name={{ item }} state=present
   with_items: homebrew_packages
 
+- name: Backup /etc/sudoers file
+  sudo: yes
+  command: cp /etc/sudoers {{ temp_work_area }}/sudoers.bak
+
+# - block:
+#     - name: Enable NOPASSWD
+#       include: enable_nopasswd_sudo.yml sudo_nopasswd_user={{ ansible_ssh_user }}
+
+#     - name: install homebrew casks
+#       homebrew_cask: name={{ item }} state=present
+#       environment:
+#         homebrew_cask_opts: '--appdir=/applications'
+#       with_items: homebrew_casks
+
+#     - name: Disable NOPASSWD 
+#       include: disable_nopasswd_sudo.yml sudo_nopasswd_user={{ ansible_ssh_user }}
+#   rescue:
+#     - name: Copy sudoers backup to /etc/sudoers
+#       sudo: yes
+#       command: cp {{ temp_work_area }}/sudoers.bak /etc/sudoers
+
+- name: Enable NOPASSWD
+  include: enable_nopasswd_sudo.yml sudo_nopasswd_user={{ ansible_ssh_user }}
+
 - name: Install Homebrew Casks
   homebrew_cask: name={{ item }} state=present
   environment:
-    HOMEBREW_CASK_OPTS: '--appdir=/Applications'
+    homebrew_cask_opts: '--appdir=/applications'
   with_items: homebrew_casks
+
+- name: Disable NOPASSWD 
+  include: disable_nopasswd_sudo.yml sudo_nopasswd_user={{ ansible_ssh_user }}
 
 - name: Install Homebrew Fonts
   homebrew_cask: name={{ item }} state=present
   with_items: homebrew_fonts
+
+
+
+
