@@ -21,6 +21,7 @@ github:
 homebrew_taps:
     - homebrew/dupes
     - caskroom/fonts
+    - homebrew/completions
 
 homebrew_packages:
     - git
@@ -37,16 +38,21 @@ homebrew_packages:
     - cookiecutter
     - node
     - consul
-    - httpie
+    - httpi
     - vault
     - awscli
+    - fabric
+    - zsh-competions
+    - docker-completions
+    - gnu-tar
+    - golang
+    - jq
 
 homebrew_casks:
     - seil
     - atom
     - diffmerge
     - sourcetree
-    - sublime-text
     - 1password
     - alfred
     - google-chrome
@@ -56,6 +62,7 @@ homebrew_casks:
     - vagrant-manager
     - terraform
     - vmware-fusion
+    - vmware-appcatalyst
     - virtualbox
     - dash
     - iterm2
@@ -69,6 +76,7 @@ homebrew_casks:
     - dockertoolbox
     - pycharm
     - rubymine
+    - omnifocus
 
 homebrew_fonts:
     - font-inconsolata
@@ -152,7 +160,7 @@ osx_defaults:
         # Empty Trash securely by default
         - key: EmptyTrashSecurely
           type: bool
-          value: 'true'
+          value: 'false'
 
         # Show hidden files
         - key: AppleShowAllFiles
@@ -210,10 +218,10 @@ osx_defaults:
 
     - domain: com.apple.LaunchServices
       defaults:
-        # Disable the “Are you sure you want to open this application?” dialog  
+        # Disable the “Are you sure you want to open this application?” dialog
         - key: LSQuarantine
           type: bool
-          value: 'false'    
+          value: 'false'
 
     - domain: com.apple.screensaver
       defaults:
@@ -288,7 +296,7 @@ osx_defaults:
           value: 'false'
 
     - domain: com.apple.ActivityMonitor
-      defaults: 
+      defaults:
         # Show the main window when launching Activity Monitor
         - key: OpenMainWindow
           type: bool
@@ -306,7 +314,7 @@ osx_defaults:
 
         # Sort Activity Monitor results by CPU usage
         - key: SortColumn
-          type: string 
+          type: string
           value: CPUUsage
         - key: SortDirection
           type: int
@@ -323,8 +331,3 @@ osx_defaults:
         - key: ShowDebugMenu
           type: bool
           value: 'true'
-
-
-
-
-
