@@ -16,7 +16,7 @@ zsh_path: /usr/local/bin/zsh
 
 github:
     user_name: sundeer
-    email: example@example.com
+    email: sundeer@rhsjmm.com
 
 homebrew_taps:
     - homebrew/dupes
